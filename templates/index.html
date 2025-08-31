@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Relay Agent</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+            height: 95vh; /* Increase to 95% to give more space */
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            background: linear-gradient(45deg, #2c3e50, #3498db);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1em;
+        }
+        
+        .available-providers {
+            background: #e8f4f8;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            flex-shrink: 0;
+        }
+        
+        .provider-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .provider-badge {
+            background: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 500;
+            border: 1px solid #3498db;
+            color: #3498db;
+        }
+        
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            min-height: 0; /* Important for flex children */
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f8f9fa;
+            min-height: 300px; /* Minimum height even with many files */
+        }
+        
+        .message {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .message.user {
+            align-items: flex-end;
+        }
+        
+        .message.assistant {
+            align-items: flex-start;
+        }
+        
+        .message-bubble {
+            max-width: 70%;
+            padding: 15px 20px;
+            border-radius: 20px;
+            position: relative;
+            word-wrap: break-word;
+        }
+        
+        .message.user .message-bubble {
+            background: #3498db;
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .message.assistant .message-bubble {
+            background: white;
+            color: #333;
+            border: 1px solid #ddd;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .message-meta {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .message.user .message-meta {
+            justify-content: flex-end;
+        }
+        
+        .message.assistant .message-meta {
+            justify-content: flex-start;
+        }
+        
+        .cleaned-notice {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+        
+        .original-prompt {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            color: #6c757d;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            margin-top: 8px;
+            font-style: italic;
+        }
+        
+        .chat-input {
+            border-top: 1px solid #ddd;
+            padding: 20px;
+            background: white;
+            flex-shrink: 0;
+            max-height: 40vh; /* Limit input area to 40% of viewport height */
+            overflow-y: auto; /* Make scrollable if content is too large */
+        }
+        
+        .input-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .provider-select {
+            display: flex;
+            gap: 10px;
+            min-width: 300px;
+        }
+        
+        select {
+            padding: 8px 12px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .message-input-container {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+        
+        #prompt {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e1e8ed;
+            border-radius: 20px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: none;
+            min-height: 44px;
+            max-height: 120px;
+        }
+        
+        #prompt:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .send-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 80px;
+        }
+        
+        .send-btn:hover:not(:disabled) {
+            background: #2980b9;
+        }
+        
+        .send-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .clear-chat {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .clear-chat:hover {
+            background: #5a6268;
+        }
+        
+        .file-upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .file-upload-area::before {
+            content: "📎 File Attachments";
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 10px;
+            text-align: left;
+            position: absolute;
+            top: -8px;
+            left: 15px;
+            background: white;
+            padding: 0 5px;
+        }
+        
+        .file-upload-area:hover {
+            border-color: #3498db;
+            background: #f0f8ff;
+        }
+        
+        .file-upload-area.drag-over {
+            border-color: #3498db;
+            background: #e3f2fd;
+        }
+        
+        .file-info {
+            background: #e8f5e8;
+            border: 1px solid #27ae60;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+        
+        .file-error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+        
+        .file-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .upload-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        
+        .upload-btn:hover {
+            background: #218838;
+        }
+        
+        .remove-file {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 10px;
+            cursor: pointer;
+        }
+        
+        .remove-file:hover {
+            background: #c82333;
+        }
+        
+        .file-preview {
+            max-height: 100px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #ddd;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            margin-top: 8px;
+        }
+        
+        .files-container {
+            max-height: 200px; /* Reduce max height */
+            overflow-y: auto;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            background: #fafafa;
+        }
+        
+        .file-item {
+            border-top: 1px solid #e0e0e0;
+            margin: 0;
+            padding: 8px 10px;
+        }
+        
+        .file-item:first-child {
+            border-top: none;
+        }
+        
+        .file-item-compact {
+            padding: 4px 8px;
+            font-size: 11px;
+        }
+        
+        .file-preview-compact {
+            max-height: 40px;
+            overflow: hidden;
+            font-size: 10px;
+            line-height: 1.2;
+        }
+        
+        .llm-selection-panel {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .llm-selection-panel::before {
+            content: "🤖 AI Model Selection";
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 10px;
+        }
+        
+        .llm-selection-panel .message-input-container {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 LLM Relay Agent</h1>
+            <p>Chat with any AI with confidence and a unified interface</p>
+        </div>
+        
+        {% if llms %}
+        <div class="available-providers">
+            <strong>Available Providers:</strong>
+            <div class="provider-list">
+                {% for provider, models in llms.items() %}
+                    <span class="provider-badge">{{ provider }} ({{ models|length }} models)</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        <div class="chat-area">
+            <div class="chat-messages" id="chatMessages">
+                <div class="message assistant">
+                    <div class="message-bubble">
+                        👋 Hello! I'm your LLM relay agent. Choose a provider below and start chatting!
+                    </div>
+                    <div class="message-meta">
+                        <span>System Message</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Processing your request...</p>
+            </div>
+            
+            <div class="chat-input">
+                <!-- LLM Selection Panel -->
+                <div class="llm-selection-panel">
+                    <div class="input-row">
+                        <div class="provider-select">
+                            <select id="llm_provider" required onchange="updateModels()">
+                                <option value="">Select provider...</option>
+                                {% for provider in llms.keys() %}
+                                    <option value="{{ provider }}">{{ provider|title }}</option>
+                                {% endfor %}
+                            </select>
+                            <select id="model">
+                                <option value="">Default model</option>
+                            </select>
+                        </div>
+                        <button class="clear-chat" onclick="clearChat()">Clear Chat</button>
+                    </div>
+                    
+                    <div class="message-input-container">
+                        <textarea 
+                            id="prompt" 
+                            placeholder="Type your message here..."
+                            rows="1"
+                            onkeydown="handleKeyDown(event)"
+                        ></textarea>
+                        <button class="send-btn" id="sendBtn" onclick="sendMessage()">Send</button>
+                    </div>
+                </div>
+                
+                <!-- File Upload Area -->
+                <div class="file-upload-area" id="fileUploadArea" onclick="document.getElementById('fileInput').click()">
+                    <div id="uploadPrompt">
+                        📎 Click to upload or drag & drop files<br>
+                        <small>Supported: PDF, Word, Excel, CSV, Text (Max 5 files total, 10MB each)<br>
+                        You can add files one by one or select multiple at once</small>
+                    </div>
+                    <div id="fileInfo" style="display: none;"></div>
+                    <input type="file" id="fileInput" style="display: none;" 
+                           accept=".pdf,.docx,.xlsx,.xls,.csv,.txt" 
+                           multiple
+                           onchange="handleFileSelect(event)">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const llmData = {{ llms|tojson }};
+        let isProcessing = false;
+        let currentFiles = [];
+        let fileContents = [];
+        
+        function updateModels() {
+            const provider = document.getElementById('llm_provider').value;
+            const modelSelect = document.getElementById('model');
+            
+            modelSelect.innerHTML = '<option value="">Default model</option>';
+            
+            if (provider && llmData[provider]) {
+                llmData[provider].forEach(model => {
+                    const option = document.createElement('option');
+                    option.value = model;
+                    option.textContent = model;
+                    modelSelect.appendChild(option);
+                });
+            }
+        }
+        
+        function addMessage(content, type, meta = {}) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            
+            let metaInfo = '';
+            if (type === 'assistant' && meta.provider) {
+                metaInfo = `<div class="message-meta">
+                    <span>Provider: ${meta.provider}</span>
+                    <span>Model: ${meta.model || 'default'}</span>
+                    <span>${new Date().toLocaleTimeString()}</span>
+                </div>`;
+            } else if (type === 'user') {
+                metaInfo = `<div class="message-meta">
+                    <span>${new Date().toLocaleTimeString()}</span>
+                </div>`;
+            }
+            
+            let cleanedNotice = '';
+            let displayContent = content;
+            
+            // For user messages, show cleaned prompt if different
+            if (type === 'user' && meta.cleanedPrompt && meta.originalPrompt !== meta.cleanedPrompt) {
+                cleanedNotice = `<div class="cleaned-notice">
+                    ⚠️ Your prompt was cleaned for security (PII filtered). Cleaned version sent to LLM:
+                </div>`;
+                // Show the cleaned version as the main content
+                displayContent = meta.cleanedPrompt;
+                
+                // Also show original in a smaller text if it's significantly different
+                if (meta.cleanedPrompt.length < meta.originalPrompt.length * 0.8) {
+                    cleanedNotice += `<div class="original-prompt">
+                        <strong>Original:</strong> ${meta.originalPrompt}
+                    </div>`;
+                }
+            }
+            
+            messageDiv.innerHTML = `
+                ${cleanedNotice}
+                <div class="message-bubble">${displayContent}</div>
+                ${metaInfo}
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+        
+        function addErrorMessage(error) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.textContent = `Error: ${error}`;
+            messagesContainer.appendChild(errorDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+        
+        async function sendMessage() {
+            if (isProcessing) return;
+            
+            const prompt = document.getElementById('prompt').value.trim();
+            const provider = document.getElementById('llm_provider').value;
+            const model = document.getElementById('model').value;
+            
+            if (!prompt || !provider) {
+                alert('Please enter a message and select a provider');
+                return;
+            }
+            
+            isProcessing = true;
+            const sendBtn = document.getElementById('sendBtn');
+            const loading = document.getElementById('loading');
+            
+            sendBtn.disabled = true;
+            sendBtn.textContent = 'Sending...';
+            loading.style.display = 'block';
+            
+            // Clear input
+            document.getElementById('prompt').value = '';
+            
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        prompt: prompt,
+                        llm_provider: provider,
+                        model: model || null,
+                        file_contents: fileContents
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Add user message with cleaning info
+                    addMessage(prompt, 'user', {
+                        cleanedPrompt: data.cleaned_prompt,
+                        originalPrompt: prompt
+                    });
+                    
+                    // Add AI response
+                    addMessage(data.response, 'assistant', {
+                        provider: data.provider,
+                        model: data.model
+                    });
+                } else {
+                    // Add user message without cleaning info on error
+                    addMessage(prompt, 'user');
+                    addErrorMessage(data.detail || 'Unknown error occurred');
+                }
+            } catch (error) {
+                // Add user message without cleaning info on error
+                addMessage(prompt, 'user');
+                addErrorMessage('Network error: ' + error.message);
+            } finally {
+                isProcessing = false;
+                sendBtn.disabled = false;
+                sendBtn.textContent = 'Send';
+                loading.style.display = 'none';
+            }
+        }
+        
+        function handleKeyDown(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+        
+        function clearChat() {
+            const messagesContainer = document.getElementById('chatMessages');
+            messagesContainer.innerHTML = `
+                <div class="message assistant">
+                    <div class="message-bubble">
+                        👋 Hello! I'm your LLM relay agent. Choose a provider below and start chatting!
+                    </div>
+                    <div class="message-meta">
+                        <span>System Message</span>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Auto-resize textarea
+        document.getElementById('prompt').addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        });
+        
+        // File handling functions
+        function handleFileSelect(event) {
+            const newFiles = Array.from(event.target.files);
+            if (newFiles.length > 0) {
+                addFiles(newFiles);
+            }
+            // Clear the input so the same files can be selected again if needed
+            event.target.value = '';
+        }
+        
+        async function addFiles(newFiles) {
+            try {
+                // Check if adding these files would exceed the limit
+                const totalFiles = currentFiles.length + newFiles.length;
+                if (totalFiles > 5) {
+                    showFileError(`Cannot add ${newFiles.length} files. Maximum 5 files total (currently have ${currentFiles.length})`);
+                    return;
+                }
+                
+                // Check for duplicate filenames
+                const existingNames = currentFiles.map(f => f.name);
+                const duplicates = newFiles.filter(f => existingNames.includes(f.name));
+                if (duplicates.length > 0) {
+                    showFileError(`Duplicate files detected: ${duplicates.map(f => f.name).join(', ')}`);
+                    return;
+                }
+                
+                showFileUploading();
+                
+                const formData = new FormData();
+                newFiles.forEach(file => {
+                    formData.append('files', file);
+                });
+                
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    // Add new files to existing ones
+                    currentFiles = [...currentFiles, ...newFiles];
+                    const newContents = result.results
+                        .filter(r => r.success)
+                        .map(r => r.filtered_text);
+                    fileContents = [...fileContents, ...newContents];
+                    
+                    // Update the display to show all files
+                    showAllFiles();
+                } else {
+                    showFileError(result.error || 'Upload failed');
+                }
+            } catch (error) {
+                showFileError('Network error: ' + error.message);
+            }
+        }
+        
+        async function processFiles(files) {
+            try {
+                if (files.length > 5) {
+                    showFileError('Maximum 5 files allowed');
+                    return;
+                }
+                
+                showFileUploading();
+                
+                const formData = new FormData();
+                files.forEach(file => {
+                    formData.append('files', file);
+                });
+                
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    currentFiles = [...files];
+                    fileContents = result.results
+                        .filter(r => r.success)
+                        .map(r => r.filtered_text);
+                    showFilesInfo(result);
+                } else {
+                    showFileError(result.error || 'Upload failed');
+                }
+            } catch (error) {
+                showFileError('Network error: ' + error.message);
+            }
+        }
+        
+        function showFileUploading() {
+            const uploadPrompt = document.getElementById('uploadPrompt');
+            const fileInfo = document.getElementById('fileInfo');
+            
+            uploadPrompt.style.display = 'none';
+            fileInfo.style.display = 'block';
+            fileInfo.innerHTML = `
+                <div class="file-info">
+                    <div class="spinner" style="width: 16px; height: 16px; margin: 0 auto 8px;"></div>
+                    Processing file...
+                </div>
+            `;
+        }
+        
+        function showFilesInfo(result) {
+            // Store successful results for later use
+            window.lastResults = result;
+            showAllFiles();
+        }
+        
+        function showAllFiles() {
+            const uploadPrompt = document.getElementById('uploadPrompt');
+            const fileInfo = document.getElementById('fileInfo');
+            
+            if (currentFiles.length === 0) {
+                uploadPrompt.style.display = 'block';
+                fileInfo.style.display = 'none';
+                return;
+            }
+            
+            uploadPrompt.style.display = 'none';
+            fileInfo.style.display = 'block';
+            
+            const isCompact = currentFiles.length > 3; // Use compact view for more than 3 files
+            
+            let filesHtml = `
+                <div class="file-info">
+                    <div class="file-actions">
+                        <strong>📁 ${currentFiles.length} file(s) attached</strong>
+                        <button class="upload-btn" onclick="document.getElementById('fileInput').click()" style="margin-left: 10px;">Add More</button>
+                        <button class="remove-file" onclick="removeFiles()">Remove All</button>
+                    </div>
+                    <div class="files-container">
+            `;
+            
+            currentFiles.forEach((file, index) => {
+                const content = fileContents[index] || 'Processing...';
+                const isProcessed = index < fileContents.length;
+                const compactClass = isCompact ? 'file-item-compact' : '';
+                
+                filesHtml += `
+                    <div class="file-item ${compactClass}">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="font-size: ${isCompact ? '10px' : '12px'}; font-weight: bold;">📄 ${file.name}</div>
+                            <button class="remove-file" onclick="removeFile(${index})" style="padding: 2px 6px; font-size: 10px;">×</button>
+                        </div>
+                        <div style="font-size: 9px; color: #666;">
+                            ${(file.size / 1024).toFixed(1)}KB | ${file.type ? file.type.split('/')[1].toUpperCase() : 'Unknown'}
+                        </div>
+                `;
+                
+                if (isProcessed) {
+                    // Check if this content has PII filtering (look for filter markers)
+                    const hasFiltering = content.includes('[') && content.includes('_FILTERED]');
+                    if (hasFiltering) {
+                        filesHtml += `
+                            <div style="color: #856404; font-size: 8px;">
+                                ⚠️ PII filtered
+                            </div>
+                        `;
+                    }
+                    
+                    const previewLength = isCompact ? 80 : 150;
+                    const previewClass = isCompact ? 'file-preview-compact' : 'file-preview';
+                    filesHtml += `
+                        <div class="${previewClass}" style="margin-top: 2px; font-size: ${isCompact ? '9px' : '11px'};">
+                            ${content.substring(0, previewLength)}${content.length > previewLength ? '...' : ''}
+                        </div>
+                    `;
+                } else {
+                    filesHtml += `
+                        <div style="color: #666; font-style: italic; font-size: ${isCompact ? '8px' : '10px'};">
+                            Processing...
+                        </div>
+                    `;
+                }
+                
+                filesHtml += '</div>';
+            });
+            
+            filesHtml += '</div>'; // Close files-container
+            
+            filesHtml += '</div>';
+            fileInfo.innerHTML = filesHtml;
+        }
+        
+        function removeFile(index) {
+            currentFiles.splice(index, 1);
+            fileContents.splice(index, 1);
+            showAllFiles();
+        }
+        
+        function showFileError(error) {
+            const uploadPrompt = document.getElementById('uploadPrompt');
+            const fileInfo = document.getElementById('fileInfo');
+            
+            uploadPrompt.style.display = 'none';
+            fileInfo.style.display = 'block';
+            fileInfo.innerHTML = `
+                <div class="file-error">
+                    ❌ ${error}
+                    <button class="remove-file" onclick="removeFile()" style="margin-left: 10px;">Dismiss</button>
+                </div>
+            `;
+        }
+        
+        function removeFiles() {
+            currentFiles = [];
+            fileContents = [];
+            
+            const uploadPrompt = document.getElementById('uploadPrompt');
+            const fileInfo = document.getElementById('fileInfo');
+            
+            uploadPrompt.style.display = 'block';
+            fileInfo.style.display = 'none';
+            
+            // Clear file input
+            document.getElementById('fileInput').value = '';
+        }
+        
+        // Drag and drop functionality
+        const fileUploadArea = document.getElementById('fileUploadArea');
+        
+        fileUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.add('drag-over');
+        });
+        
+        fileUploadArea.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.remove('drag-over');
+        });
+        
+        fileUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.remove('drag-over');
+            
+            const files = Array.from(e.dataTransfer.files);
+            if (files.length > 0) {
+                if (currentFiles.length === 0) {
+                    // First files - use processFiles
+                    processFiles(files);
+                } else {
+                    // Adding to existing files - use addFiles
+                    addFiles(files);
+                }
+            }
+        });
+        
+        // Initialize
+        updateModels();
+    </script>
+</body>
+</html>
