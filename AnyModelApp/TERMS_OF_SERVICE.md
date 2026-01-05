@@ -241,7 +241,7 @@ We are not liable for delays or failures due to circumstances beyond our reasona
 ### 15.7 Contact for Legal Notices
 For legal notices regarding these Terms:
 - **Email**: legal@chatinshield.com
-- **GitHub**: https://github.com/yourusername/anymodel-mobile/issues
+- **GitHub**: https://github.com/desoduce/anymodel/issues
 
 ## 16. Specific Use Cases
 
