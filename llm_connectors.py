@@ -5,6 +5,7 @@ import openai
 import anthropic
 import requests
 from abc import ABC, abstractmethod
+import google.generativeai as genai
 
 class BaseLLMProvider(ABC):
     """Base class for LLM providers"""
@@ -164,21 +165,113 @@ class OllamaProvider(BaseLLMProvider):
         except Exception as e:
             raise Exception(f"Ollama API error: {str(e)}")
 
+class GeminiProvider(BaseLLMProvider):
+    """Google Gemini provider"""
+
+    def __init__(self):
+        self.api_key = os.getenv('GEMINI_API_KEY')
+        if self.api_key:
+            genai.configure(api_key=self.api_key)
+
+    def is_configured(self) -> bool:
+        return self.api_key is not None
+
+    def get_available_models(self) -> List[str]:
+        return [
+            "gemini-2.0-flash-exp",
+            "gemini-1.5-pro",
+            "gemini-1.5-flash"
+        ]
+
+    async def generate_response(self, prompt: str, model: Optional[str] = None) -> Dict[str, Any]:
+        if not self.is_configured():
+            raise Exception("Gemini API key not configured")
+
+        model = model or "gemini-2.0-flash-exp"
+
+        try:
+            # Create model instance
+            gemini_model = genai.GenerativeModel(model)
+
+            # Generate response (synchronous call wrapped for async)
+            response = await asyncio.to_thread(
+                gemini_model.generate_content,
+                prompt
+            )
+
+            return {
+                "content": response.text,
+                "model": model,
+                "provider": "gemini"
+            }
+        except Exception as e:
+            raise Exception(f"Gemini API error: {str(e)}")
+
+class OpenRouterProvider(BaseLLMProvider):
+    """OpenRouter provider"""
+
+    def __init__(self):
+        self.client = None
+        api_key = os.getenv('OPENROUTER_API_KEY')
+        if api_key:
+            self.client = openai.AsyncOpenAI(
+                api_key=api_key,
+                base_url="https://openrouter.ai/api/v1"
+            )
+
+    def is_configured(self) -> bool:
+        return self.client is not None
+
+    def get_available_models(self) -> List[str]:
+        return [
+            "meta-llama/llama-3.1-405b-instruct",
+            "meta-llama/llama-3.1-70b-instruct",
+            "anthropic/claude-3.5-sonnet",
+            "anthropic/claude-3-opus",
+            "openai/gpt-4-turbo",
+            "openai/gpt-4",
+            "openai/gpt-3.5-turbo",
+            "google/gemini-pro-1.5",
+            "mistralai/mistral-large"
+        ]
+
+    async def generate_response(self, prompt: str, model: Optional[str] = None) -> Dict[str, Any]:
+        if not self.is_configured():
+            raise Exception("OpenRouter API key not configured")
+
+        model = model or "meta-llama/llama-3.1-70b-instruct"
+
+        try:
+            response = await self.client.chat.completions.create(
+                model=model,
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=2000,
+                temperature=0.7
+            )
+
+            return {
+                "content": response.choices[0].message.content,
+                "model": model,
+                "provider": "openrouter"
+            }
+        except Exception as e:
+            raise Exception(f"OpenRouter API error: {str(e)}")
+
 class MockProvider(BaseLLMProvider):
     """Mock provider for testing"""
-    
+
     def is_configured(self) -> bool:
         return True
-    
+
     def get_available_models(self) -> List[str]:
         return ["mock-model-1", "mock-model-2"]
-    
+
     async def generate_response(self, prompt: str, model: Optional[str] = None) -> Dict[str, Any]:
         model = model or "mock-model-1"
-        
+
         # Simulate processing time
         await asyncio.sleep(0.5)
-        
+
         return {
             "content": f"Mock response to: {prompt[:50]}{'...' if len(prompt) > 50 else ''}",
             "model": model,
@@ -187,14 +280,16 @@ class MockProvider(BaseLLMProvider):
 
 class LLMConnector:
     """Main connector class that manages all LLM providers"""
-    
+
     def __init__(self, include_mock: bool = False):
         self.providers = {
             "openai": OpenAIProvider(),
             "anthropic": AnthropicProvider(),
-            "ollama": OllamaProvider()
+            "ollama": OllamaProvider(),
+            "gemini": GeminiProvider(),
+            "openrouter": OpenRouterProvider()
         }
-        
+
         # Only include mock provider if explicitly requested (for testing)
         if include_mock:
             self.providers["mock"] = MockProvider()

@@ -1,0 +1,22 @@
+# Custom PII Keywords and Patterns
+# Add keywords or regex patterns to filter from documents
+# One per line, empty lines and lines starting with # are ignored
+
+# Example keywords:
+# confidential
+# internal
+# proprietary
+
+# Example regex patterns (prefix with regex:):
+# regex:\b[A-Z]{2}\d{9}\b
+
+# Social Security patterns beyond basic SSN
+regex:\b\d{3}[\s-]?\d{2}[\s-]?\d{4}\b
+
+# Additional phone number patterns
+regex:\(\d{3}\)\s?\d{3}[\s-]?\d{4}
+
+# Driver's license patterns (example for various states)
+regex:\b[A-Z]\d{7,8}\b
+
+# Custom company-specific patterns can be added here

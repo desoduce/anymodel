@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal Documents - ChatinShield</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #007AFF;
+            border-bottom: 3px solid #007AFF;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #333;
+            margin-top: 30px;
+        }
+        .intro {
+            background: #e3f2fd;
+            border-left: 4px solid #007AFF;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        .document-card {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+        .document-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.2);
+            border-color: #007AFF;
+        }
+        .document-card h3 {
+            color: #007AFF;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .document-card p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .document-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #007AFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+        .document-link:hover {
+            background: #0051D5;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid #ddd;
+            color: #999;
+        }
+        .footer a {
+            color: #007AFF;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        .app-info {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        .app-info h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ChatinShield Legal Documents</h1>
+
+        <div class="intro">
+            <strong>Welcome!</strong> This page contains important legal information about ChatinShield,
+            our AI chat application with privacy protection. Please review these documents before using the app.
+        </div>
+
+        <div class="app-info">
+            <h2>About ChatinShield</h2>
+            <p>
+                ChatinShield is a privacy-first mobile application that connects to multiple Large Language Models (LLMs)
+                including OpenAI GPT, Anthropic Claude, Google Gemini, and OpenRouter. The app features:
+            </p>
+            <ul>
+                <li>Advanced PII (Personally Identifiable Information) filtering</li>
+                <li>Encrypted local storage for API keys</li>
+                <li>Document processing (PDF, DOCX, Excel, Images)</li>
+                <li>OCR text recognition with Google MLKit</li>
+                <li>No data collection - everything stays on your device</li>
+                <li>Production-hardened security with file size limits</li>
+            </ul>
+        </div>
+
+        <h2>Legal Documents</h2>
+
+        <div class="document-card">
+            <h3>Privacy Policy</h3>
+            <p>
+                Learn how ChatinShield handles your information (spoiler: we don't collect it).
+                This document explains our privacy-first approach, what data stays on your device,
+                and how we comply with GDPR and CCPA regulations.
+            </p>
+            <p><strong>Last Updated:</strong> January 4, 2026</p>
+            <a href="privacy.html" class="document-link">Read Privacy Policy</a>
+        </div>
+
+        <div class="document-card">
+            <h3>Terms of Service</h3>
+            <p>
+                Understand your rights and responsibilities when using ChatinShield.
+                This document covers acceptable use, third-party service terms, disclaimers,
+                and limitations of liability.
+            </p>
+            <p><strong>Last Updated:</strong> January 4, 2026</p>
+            <a href="terms.html" class="document-link">Read Terms of Service</a>
+        </div>
+
+        <div class="app-info">
+            <h2>Key Points to Remember</h2>
+            <ul>
+                <li>✅ <strong>Privacy First:</strong> We don't collect your personal data</li>
+                <li>✅ <strong>Local Storage:</strong> Everything is stored securely on your device</li>
+                <li>✅ <strong>Your API Keys:</strong> You must provide your own API keys for LLM services</li>
+                <li>✅ <strong>No Tracking:</strong> No analytics, no tracking, no data collection</li>
+                <li>⚠️ <strong>AI Content:</strong> May be inaccurate - verify important information</li>
+                <li>⚠️ <strong>PII Filtering:</strong> Helpful but not perfect - review before uploading</li>
+                <li>⚠️ <strong>Third-Party Services:</strong> Subject to their own terms and privacy policies</li>
+                <li>⚠️ <strong>API Costs:</strong> You are responsible for all API usage costs</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>© 2026 ChatinShield. All rights reserved.</p>
+            <p>
+                <a href="https://github.com/yourusername/anymodel-mobile">View on GitHub</a> |
+                <a href="mailto:support@chatinshield.com">Contact Support</a>
+            </p>
+            <p><small>Built with ❤️ using React Native & Expo</small></p>
+        </div>
+    </div>
+</body>
+</html>
