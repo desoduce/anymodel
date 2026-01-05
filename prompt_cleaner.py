@@ -61,7 +61,7 @@ def filterPII(text: str) -> str:
     """
     Filter out Personally Identifiable Information from text.
     
-    Removes or masks:
+    Removes or masks with indexed redaction markers (REDACTED1, REDACTED2, etc.):
     - Social Security Numbers
     - Phone Numbers
     - Email Addresses
@@ -70,60 +70,70 @@ def filterPII(text: str) -> str:
     - IP Addresses
     - Personal Names (replaced with initials)
     
+    Same strings get the same redaction index consistently.
+    
     Args:
         text (str): Input text
         
     Returns:
-        str: Text with PII filtered out
+        str: Text with PII filtered out using indexed markers
     """
-    # Social Security Numbers (XXX-XX-XXXX format and variations)
-    text = re.sub(r'\b\d{3}[-\s]?\d{2}[-\s]?\d{4}\b', '[SSN_FILTERED]', text)
+    redaction_map = {}  # Map original text to redaction index
+    next_redaction_index = [1]  # Use list to allow modification in nested function
     
-    # Phone Numbers (various formats)
-    phone_patterns = [
+    def get_redaction_index(original_text: str) -> str:
+        """Get or assign redaction index for a matched string"""
+        if original_text in redaction_map:
+            return f"REDACTED{redaction_map[original_text]}"
+        
+        index = next_redaction_index[0]
+        next_redaction_index[0] += 1
+        redaction_map[original_text] = index
+        return f"REDACTED{index}"
+    
+    # Define all PII patterns with their replacements
+    pii_patterns = [
+        # Social Security Numbers (XXX-XX-XXXX format and variations)
+        r'\b\d{3}[-\s]?\d{2}[-\s]?\d{4}\b',
+        
+        # Phone Numbers (various formats)
         r'\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b',  # 123-456-7890, 123.456.7890, 123 456 7890
         r'\(\d{3}\)\s?\d{3}[-.\s]?\d{4}',      # (123) 456-7890
         r'\+1[-.\s]?\d{3}[-.\s]?\d{3}[-.\s]?\d{4}',  # +1-123-456-7890
-    ]
-    for pattern in phone_patterns:
-        text = re.sub(pattern, '[PHONE_FILTERED]', text)
-    
-    # Email Addresses
-    text = re.sub(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', '[EMAIL_FILTERED]', text)
-    
-    # Credit Card Numbers (basic pattern - 4 groups of 4 digits)
-    text = re.sub(r'\b\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}\b', '[CARD_FILTERED]', text)
-    
-    # IP Addresses
-    text = re.sub(r'\b(?:\d{1,3}\.){3}\d{1,3}\b', '[IP_FILTERED]', text)
-    
-    # Street Addresses (basic patterns)
-    # Pattern for number + street name + common suffixes
-    address_patterns = [
+        
+        # Email Addresses
+        r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b',
+        
+        # Credit Card Numbers (basic pattern - 4 groups of 4 digits)
+        r'\b\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}\b',
+        
+        # IP Addresses
+        r'\b(?:\d{1,3}\.){3}\d{1,3}\b',
+        
+        # Street Addresses (basic patterns)
         r'\b\d+\s+[A-Za-z\s]+\s+(Street|St|Avenue|Ave|Road|Rd|Drive|Dr|Lane|Ln|Boulevard|Blvd|Circle|Cir|Court|Ct|Place|Pl)\b',
         r'\b\d+\s+[A-Za-z\s]+\s+(St|Ave|Rd|Dr|Ln|Blvd|Cir|Ct|Pl)\.?\b',
-    ]
-    for pattern in address_patterns:
-        text = re.sub(pattern, '[ADDRESS_FILTERED]', text, flags=re.IGNORECASE)
-    
-    # ZIP Codes (5 digits or 5+4 format)
-    text = re.sub(r'\b\d{5}(?:-\d{4})?\b', '[ZIP_FILTERED]', text)
-    
-    # Driver's License Numbers (varies by state, but common patterns)
-    dl_patterns = [
+        
+        # ZIP Codes (5 digits or 5+4 format)
+        r'\b\d{5}(?:-\d{4})?\b',
+        
+        # Driver's License Numbers (varies by state, but common patterns)
         r'\b[A-Z]\d{7,8}\b',  # Letter followed by 7-8 digits (many states)
         r'\b\d{8,12}\b',      # 8-12 digits (some states)
+        
+        # Bank Account Numbers (basic pattern - 8-17 digits)
+        r'\b\d{8,17}\b',
+        
+        # Passport Numbers (basic pattern - letter + 8 digits)
+        r'\b[A-Z]\d{8}\b',
     ]
-    for pattern in dl_patterns:
-        text = re.sub(pattern, '[DL_FILTERED]', text)
     
-    # Bank Account Numbers (basic pattern - 8-17 digits)
-    text = re.sub(r'\b\d{8,17}\b', '[ACCOUNT_FILTERED]', text)
+    # Apply all patterns with indexed redaction
+    for pattern in pii_patterns:
+        # Use a lambda to capture the matched text and get its redaction index
+        text = re.sub(pattern, lambda match: get_redaction_index(match.group(0)), text, flags=re.IGNORECASE)
     
-    # Passport Numbers (basic pattern - letter + 8 digits)
-    text = re.sub(r'\b[A-Z]\d{8}\b', '[PASSPORT_FILTERED]', text)
-    
-    # Personal Names (replace with initials)
+    # Personal Names (replace with initials) - commented out for now
     # text = filterNames(text)
     
     return text

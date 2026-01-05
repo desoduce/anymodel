@@ -122,7 +122,7 @@ class DocumentProcessor:
             text = ""
             for page in pdf_reader.pages:
                 text += page.extract_text() + "\n"
-            
+
             return text.strip()
         except Exception as e:
             raise ValueError(f"Error reading PDF: {str(e)}")

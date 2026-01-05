@@ -21,6 +21,8 @@ class Config:
     # API Keys
     OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
     ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY')
+    GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+    OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY', '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')
     OLLAMA_URL = os.getenv('OLLAMA_URL', 'http://localhost:11434')
     
     @classmethod
@@ -30,5 +32,7 @@ class Config:
             'include_mock': cls.INCLUDE_MOCK_PROVIDER,
             'openai_configured': bool(cls.OPENAI_API_KEY),
             'anthropic_configured': bool(cls.ANTHROPIC_API_KEY),
+            'gemini_configured': bool(cls.GEMINI_API_KEY),
+            'openrouter_configured': bool(cls.OPENROUTER_API_KEY),
             'ollama_url': cls.OLLAMA_URL
         }

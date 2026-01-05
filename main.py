@@ -26,6 +26,7 @@ class PromptRequest(BaseModel):
     llm_provider: str
     model: Optional[str] = None
     file_contents: Optional[List[str]] = None
+    api_keys: Optional[Dict[str, str]] = None
 
 class PromptResponse(BaseModel):
     response: str
@@ -103,7 +104,8 @@ async def chat(request: PromptRequest):
         response = await llm_connector.generate_response(
             prompt=cleaned_prompt,
             provider=request.llm_provider,
-            model=request.model
+            model=request.model,
+            api_keys=request.api_keys
         )
         
         return PromptResponse(
