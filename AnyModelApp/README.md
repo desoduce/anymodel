@@ -219,7 +219,8 @@ The app automatically filters common PII types:
 **API Key Management**:
 - Never hardcode API keys in source code
 - Use environment variables for configuration
-- Store user API keys with encryption (EncryptedStorage)
+- **Production-Grade Encryption**: User API keys encrypted with AES-256 using crypto-js
+- Encryption keys stored in iOS Keychain / Android Keystore
 - API keys never logged or transmitted to backend
 
 **Environment Configuration**:
@@ -286,6 +287,10 @@ EXPO_PUBLIC_DEFAULT_PROVIDER=openai
   - Backend is optional - app works standalone
 
 **🛡️ Security Improvements**:
+- **AES-256 Encryption**: Upgraded from base64 to production-grade AES-256 encryption for API keys
+  - Uses crypto-js library for strong encryption
+  - Encryption keys stored in iOS Keychain / Android Keystore
+  - All sensitive data encrypted before storage
 - No hardcoded secrets in codebase
 - Minimal console output in production
 - File upload DOS protection

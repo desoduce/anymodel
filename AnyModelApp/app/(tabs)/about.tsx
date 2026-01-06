@@ -132,7 +132,7 @@ export default function AboutScreen() {
             <Text style={styles.boldText}>Your Privacy is Our Priority{'\n\n'}</Text>
             ChatinShield is designed with privacy-first principles and production-grade security:
           </Text>
-          <Text style={styles.bulletPoint}>• All API keys are encrypted and stored locally on your device</Text>
+          <Text style={styles.bulletPoint}>• All API keys encrypted with AES-256 and stored locally on your device</Text>
           <Text style={styles.bulletPoint}>• Your conversations and documents are sent directly to your chosen LLM provider</Text>
           <Text style={styles.bulletPoint}>• We do not store, transmit, or access your chat history or documents</Text>
           <Text style={styles.bulletPoint}>• PII filtering happens on-device before sending to LLM providers</Text>
@@ -146,7 +146,8 @@ export default function AboutScreen() {
             • All console logs disabled in production builds{'\n'}
             • No hardcoded API keys in source code{'\n'}
             • Environment-based configuration{'\n'}
-            • Encrypted local storage for user API keys{'\n'}
+            • AES-256 encryption for API keys and sensitive data{'\n'}
+            • Encryption keys stored in iOS Keychain / Android Keystore{'\n'}
             • File size validation before processing
           </Text>
 
