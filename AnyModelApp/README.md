@@ -16,6 +16,47 @@ A powerful mobile application that provides a unified interface to interact with
 - **Streamlined UX**: Intuitive interface with consistent save operations
 - **Cross-Platform**: Built with React Native and Expo for iOS and Android
 
+## Getting Started
+
+### 1. Install the App
+
+Download the app (coming soon to App Store and Google Play) or build from source (see Setup section below).
+
+### 2. Get Your API Keys
+
+**ChatinShield is a client application** - you need your own API keys from AI providers to use the app. This design ensures:
+- Maximum privacy (we never see your conversations)
+- You control your costs
+- Direct connections to AI providers
+
+**Recommended for Beginners: OpenRouter**
+
+OpenRouter provides access to 100+ AI models with a single API key:
+
+1. Visit [https://openrouter.ai/](https://openrouter.ai/)
+2. Sign up and go to [https://openrouter.ai/keys](https://openrouter.ai/keys)
+3. Create an API key (starts with `sk-or-v1-...`)
+4. Copy your key
+
+**Other Options:**
+
+- **Google Gemini** (Free tier available): [https://makersuite.google.com/app/apikey](https://makersuite.google.com/app/apikey)
+- **OpenAI** (GPT-4, ChatGPT): [https://platform.openai.com/api-keys](https://platform.openai.com/api-keys)
+- **Anthropic** (Claude): [https://console.anthropic.com/settings/keys](https://console.anthropic.com/settings/keys)
+
+**For detailed setup instructions, see [API_KEYS_GUIDE.md](API_KEYS_GUIDE.md)**
+
+### 3. Enter Your API Key
+
+1. Open ChatinShield
+2. On first launch, you'll see a welcome screen with setup instructions
+3. Go to Settings → API Keys
+4. Enter your API key(s)
+5. Tap "Save Settings"
+6. Return to Chat tab and start chatting!
+
+**Security Note**: Your API keys are encrypted with AES-256 and stored only on your device. We never see or store them.
+
 ## Prerequisites
 
 - Node.js (v16 or higher)
