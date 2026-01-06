@@ -240,8 +240,7 @@ We are not liable for delays or failures due to circumstances beyond our reasona
 
 ### 15.7 Contact for Legal Notices
 For legal notices regarding these Terms:
-- **Email**: legal@chatinshield.com
-- **GitHub**: https://github.com/desoduce/anymodel/issues
+- **GitHub Issues**: https://github.com/desoduce/anymodel/issues
 
 ## 16. Specific Use Cases
 
@@ -311,6 +310,6 @@ If you provide feedback, suggestions, or ideas about the App, you grant us a per
 - ⚠️ Verify important information from authoritative sources
 - ⚠️ These Terms can be updated at any time
 
-**Questions?** Contact us at support@chatinshield.com
+**Questions?** Contact us via GitHub Issues: https://github.com/desoduce/anymodel/issues
 
 **By using this App, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service.**

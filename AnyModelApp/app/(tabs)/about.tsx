@@ -297,17 +297,14 @@ export default function AboutScreen() {
             <Text style={styles.linkText}>View on GitHub</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.linkButton}
-            onPress={() => openURL('mailto:support@chatinshield.com')}
-          >
-            <Icon name="email" size={20} color="#007AFF" />
-            <Text style={styles.linkText}>Email Support</Text>
-          </TouchableOpacity>
-
           <Text style={styles.bodyText}>
             {'\n'}<Text style={styles.boldText}>Developer:{'\n'}</Text>
             AnyModel Team
+          </Text>
+
+          <Text style={styles.bodyText}>
+            {'\n'}<Text style={styles.boldText}>Support:{'\n'}</Text>
+            For questions or issues, please use GitHub Issues.
           </Text>
         </CollapsibleSection>
 
