@@ -1,6 +1,7 @@
 import * as Crypto from 'expo-crypto';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Keychain from 'react-native-keychain';
+import CryptoJS from 'crypto-js';
 
 export interface ApiKeys {
   openai: string;
@@ -87,24 +88,32 @@ class EncryptedStorage {
     }
   }
 
-  // Simple encryption using base64 and key mixing (for demo purposes)
-  // In production, use proper encryption libraries like crypto-js
+  // Production-grade AES-256 encryption using crypto-js
   private async encryptData(data: string): Promise<string> {
-    const key = await this.getEncryptionKey();
-    const combined = key + data + key.split('').reverse().join('');
-    return btoa(combined);
+    try {
+      const key = await this.getEncryptionKey();
+      // Use AES-256 encryption with the key
+      const encrypted = CryptoJS.AES.encrypt(data, key).toString();
+      return encrypted;
+    } catch (error) {
+      if (__DEV__) console.error('Failed to encrypt data:', error);
+      throw new Error('Failed to encrypt data');
+    }
   }
 
+  // Production-grade AES-256 decryption using crypto-js
   private async decryptData(encryptedData: string): Promise<string> {
     try {
       const key = await this.getEncryptionKey();
-      const combined = atob(encryptedData);
-      const reversedKey = key.split('').reverse().join('');
-      
-      // Extract original data by removing keys from start and end
-      const startIndex = key.length;
-      const endIndex = combined.length - reversedKey.length;
-      return combined.substring(startIndex, endIndex);
+      // Decrypt using AES-256
+      const decrypted = CryptoJS.AES.decrypt(encryptedData, key);
+      const decryptedString = decrypted.toString(CryptoJS.enc.Utf8);
+
+      if (!decryptedString) {
+        throw new Error('Decryption resulted in empty string');
+      }
+
+      return decryptedString;
     } catch (error) {
       if (__DEV__) console.error('Failed to decrypt data:', error);
       throw new Error('Failed to decrypt stored data');

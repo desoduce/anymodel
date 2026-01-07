@@ -69,7 +69,7 @@ export default function AboutScreen() {
         {/* App Header */}
         <View style={styles.header}>
           <Text style={styles.appName}>ChatinShield</Text>
-          <Text style={styles.version}>Version 1.3.0</Text>
+          <Text style={styles.version}>Version 1.2.1</Text>
           <Text style={styles.tagline}>AI Chat with Privacy Protection</Text>
         </View>
 
@@ -81,8 +81,8 @@ export default function AboutScreen() {
             PII (Personally Identifiable Information) filtering to protect your sensitive data.
           </Text>
           <Text style={styles.bodyText}>
-            Built with React Native and Expo, ChatinShield provides a seamless cross-platform experience
-            for iOS and Android users. All API keys are encrypted and stored securely on your device.
+            ChatinShield provides a seamless cross-platform experience for iOS and Android users.
+            All API keys are encrypted and stored securely on your device.
           </Text>
         </CollapsibleSection>
 
@@ -132,7 +132,7 @@ export default function AboutScreen() {
             <Text style={styles.boldText}>Your Privacy is Our Priority{'\n\n'}</Text>
             ChatinShield is designed with privacy-first principles and production-grade security:
           </Text>
-          <Text style={styles.bulletPoint}>• All API keys are encrypted and stored locally on your device</Text>
+          <Text style={styles.bulletPoint}>• All API keys encrypted with AES-256 and stored locally on your device</Text>
           <Text style={styles.bulletPoint}>• Your conversations and documents are sent directly to your chosen LLM provider</Text>
           <Text style={styles.bulletPoint}>• We do not store, transmit, or access your chat history or documents</Text>
           <Text style={styles.bulletPoint}>• PII filtering happens on-device before sending to LLM providers</Text>
@@ -146,7 +146,8 @@ export default function AboutScreen() {
             • All console logs disabled in production builds{'\n'}
             • No hardcoded API keys in source code{'\n'}
             • Environment-based configuration{'\n'}
-            • Encrypted local storage for user API keys{'\n'}
+            • AES-256 encryption for API keys and sensitive data{'\n'}
+            • Encryption keys stored in iOS Keychain / Android Keystore{'\n'}
             • File size validation before processing
           </Text>
 
@@ -282,31 +283,28 @@ export default function AboutScreen() {
 
           <TouchableOpacity
             style={styles.linkButton}
-            onPress={() => openURL('https://github.com/yourusername/anymodel-mobile/issues')}
+            onPress={() => openURL('https://github.com/desoduce/anymodel/issues')}
           >
             <Icon name="bug-report" size={20} color="#007AFF" />
-            <Text style={styles.linkText}>Report an Issue</Text>
+            <Text style={styles.linkText}>Report an Issue on GitHub</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.linkButton}
-            onPress={() => openURL('https://github.com/yourusername/anymodel-mobile')}
+            onPress={() => openURL('https://desoduce.github.io/anymodel/')}
           >
-            <Icon name="code" size={20} color="#007AFF" />
-            <Text style={styles.linkText}>View on GitHub</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.linkButton}
-            onPress={() => openURL('mailto:support@chatinshield.com')}
-          >
-            <Icon name="email" size={20} color="#007AFF" />
-            <Text style={styles.linkText}>Email Support</Text>
+            <Icon name="home" size={20} color="#007AFF" />
+            <Text style={styles.linkText}>Visit Website</Text>
           </TouchableOpacity>
 
           <Text style={styles.bodyText}>
             {'\n'}<Text style={styles.boldText}>Developer:{'\n'}</Text>
-            AnyModel Team
+            ChatinShield Team
+          </Text>
+
+          <Text style={styles.bodyText}>
+            {'\n'}<Text style={styles.boldText}>Support:{'\n'}</Text>
+            For questions or issues, please use GitHub Issues.
           </Text>
         </CollapsibleSection>
 

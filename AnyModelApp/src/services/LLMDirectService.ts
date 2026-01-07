@@ -586,9 +586,9 @@ Please analyze the above document content and respond to the user's request.`;
   // Main method to send message directly to providers
   async sendMessageDirect(request: ChatRequest): Promise<ChatResponse> {
     const apiKeys = request.api_keys;
-    
+
     if (!apiKeys) {
-      throw new Error('API keys are required for direct provider communication');
+      throw new Error('No API keys found. Please go to Settings and add your API keys.');
     }
 
     // Clean the prompt (basic filtering)
@@ -600,19 +600,19 @@ Please analyze the above document content and respond to the user's request.`;
     switch (request.llm_provider) {
       case 'openai':
         if (!apiKeys.openai) {
-          throw new Error('OpenAI API key is required');
+          throw new Error('OpenAI API key not found. Please go to Settings and add your OpenAI API key.');
         }
         return await this.callOpenAI(cleanedRequest, apiKeys.openai);
 
       case 'anthropic':
         if (!apiKeys.anthropic) {
-          throw new Error('Anthropic API key is required');
+          throw new Error('Anthropic API key not found. Please go to Settings and add your Anthropic API key.');
         }
         return await this.callAnthropic(cleanedRequest, apiKeys.anthropic);
 
       case 'gemini':
         if (!apiKeys.gemini) {
-          throw new Error('Gemini API key is required');
+          throw new Error('Gemini API key not found. Please go to Settings and add your Gemini API key.');
         }
         return await this.callGemini(cleanedRequest, apiKeys.gemini);
 
@@ -622,7 +622,7 @@ Please analyze the above document content and respond to the user's request.`;
 
       case 'openrouter':
         if (!apiKeys.openrouter) {
-          throw new Error('OpenRouter API key is required');
+          throw new Error('OpenRouter API key not found. Please go to Settings and add your OpenRouter API key.');
         }
         return await this.callOpenRouter(cleanedRequest, apiKeys.openrouter);
 

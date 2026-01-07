@@ -412,105 +412,109 @@ export default function SettingsScreen() {
             </View>
           </TouchableOpacity>
 
-          {apiKeysExpanded && <View style={styles.settingItem}>
-            <Text style={styles.label}>OpenAI API Key</Text>
-            <TextInput
-              style={styles.textInput}
-              value={apiKeys.openai}
-              onChangeText={(text) => setApiKeys(prev => ({ ...prev, openai: text }))}
-              placeholder="sk-..."
-              secureTextEntry={!showApiKeys}
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
-          </View>
+          {apiKeysExpanded && (
+            <>
+              <View style={styles.settingItem}>
+                <Text style={styles.label}>OpenAI API Key</Text>
+                <TextInput
+                  style={styles.textInput}
+                  value={apiKeys.openai}
+                  onChangeText={(text) => setApiKeys(prev => ({ ...prev, openai: text }))}
+                  placeholder="sk-..."
+                  secureTextEntry={!showApiKeys}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                />
+              </View>
 
-          <View style={styles.settingItem}>
-            <Text style={styles.label}>Anthropic API Key</Text>
-            <TextInput
-              style={styles.textInput}
-              value={apiKeys.anthropic}
-              onChangeText={(text) => setApiKeys(prev => ({ ...prev, anthropic: text }))}
-              placeholder="sk-ant-..."
-              secureTextEntry={!showApiKeys}
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
-          </View>
+              <View style={styles.settingItem}>
+                <Text style={styles.label}>Anthropic API Key</Text>
+                <TextInput
+                  style={styles.textInput}
+                  value={apiKeys.anthropic}
+                  onChangeText={(text) => setApiKeys(prev => ({ ...prev, anthropic: text }))}
+                  placeholder="sk-ant-..."
+                  secureTextEntry={!showApiKeys}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                />
+              </View>
 
-          <View style={styles.settingItem}>
-            <Text style={styles.label}>Gemini API Key</Text>
-            <TextInput
-              style={styles.textInput}
-              value={apiKeys.gemini}
-              onChangeText={(text) => setApiKeys(prev => ({ ...prev, gemini: text }))}
-              placeholder="AI..."
-              secureTextEntry={!showApiKeys}
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
-          </View>
+              <View style={styles.settingItem}>
+                <Text style={styles.label}>Gemini API Key</Text>
+                <TextInput
+                  style={styles.textInput}
+                  value={apiKeys.gemini}
+                  onChangeText={(text) => setApiKeys(prev => ({ ...prev, gemini: text }))}
+                  placeholder="AI..."
+                  secureTextEntry={!showApiKeys}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                />
+              </View>
 
-          <View style={styles.settingItem}>
-            <Text style={styles.label}>Ollama URL</Text>
-            <TextInput
-              style={styles.textInput}
-              value={apiKeys.ollama_url}
-              onChangeText={(text) => setApiKeys(prev => ({ ...prev, ollama_url: text }))}
-              placeholder="http://localhost:11434"
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
-          </View>
+              <View style={styles.settingItem}>
+                <Text style={styles.label}>Ollama URL</Text>
+                <TextInput
+                  style={styles.textInput}
+                  value={apiKeys.ollama_url}
+                  onChangeText={(text) => setApiKeys(prev => ({ ...prev, ollama_url: text }))}
+                  placeholder="http://localhost:11434"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                />
+              </View>
 
-          <View style={styles.settingItem}>
-            <Text style={styles.label}>OpenRouter API Key</Text>
-            <TextInput
-              style={styles.textInput}
-              value={apiKeys.openrouter}
-              onChangeText={(text) => setApiKeys(prev => ({ ...prev, openrouter: text }))}
-              placeholder="sk-or-..."
-              secureTextEntry={!showApiKeys}
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
-          </View>
+              <View style={styles.settingItem}>
+                <Text style={styles.label}>OpenRouter API Key</Text>
+                <TextInput
+                  style={styles.textInput}
+                  value={apiKeys.openrouter}
+                  onChangeText={(text) => setApiKeys(prev => ({ ...prev, openrouter: text }))}
+                  placeholder="sk-or-..."
+                  secureTextEntry={!showApiKeys}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                />
+              </View>
 
-          <View style={styles.infoBox}>
-            <Icon name="info" size={16} color="#666" />
-            <Text style={styles.infoText}>
-              API keys are encrypted and stored securely on your device. 
-              Keys are sent directly to providers and never shared with our servers.
-            </Text>
-          </View>
+              <View style={styles.infoBox}>
+                <Icon name="info" size={16} color="#666" />
+                <Text style={styles.infoText}>
+                  API keys are encrypted and stored securely on your device.
+                  Keys are sent directly to providers and never shared with our servers.
+                </Text>
+              </View>
 
-          <View style={styles.warningBox}>
-            <Icon name="warning" size={16} color="#FF9500" />
-            <Text style={styles.warningText}>
-              ⚠️ PII filtering uses basic pattern matching. Always review documents for sensitive information before processing.
-            </Text>
-          </View>
+              <View style={styles.warningBox}>
+                <Icon name="warning" size={16} color="#FF9500" />
+                <Text style={styles.warningText}>
+                  ⚠️ PII filtering uses basic pattern matching. Always review documents for sensitive information before processing.
+                </Text>
+              </View>
 
-          <View style={styles.keyButtonsContainer}>
-            <TouchableOpacity 
-              style={styles.testKeysButton} 
-              onPress={testApiKeys}
-              disabled={loading}
-            >
-              <Icon name="check-circle" size={20} color="#34C759" />
-              <Text style={styles.testKeysButtonText}>
-                {loading ? 'Checking...' : 'Test API Keys'}
-              </Text>
-            </TouchableOpacity>
+              <View style={styles.keyButtonsContainer}>
+                <TouchableOpacity
+                  style={styles.testKeysButton}
+                  onPress={testApiKeys}
+                  disabled={loading}
+                >
+                  <Icon name="check-circle" size={20} color="#34C759" />
+                  <Text style={styles.testKeysButtonText}>
+                    {loading ? 'Checking...' : 'Test API Keys'}
+                  </Text>
+                </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.clearKeysButton}
-              onPress={clearApiKeys}
-            >
-              <Icon name="clear-all" size={20} color="#FF3B30" />
-              <Text style={styles.clearKeysButtonText}>Clear All Keys</Text>
-            </TouchableOpacity>
-          </View>}
+                <TouchableOpacity
+                  style={styles.clearKeysButton}
+                  onPress={clearApiKeys}
+                >
+                  <Icon name="clear-all" size={20} color="#FF3B30" />
+                  <Text style={styles.clearKeysButtonText}>Clear All Keys</Text>
+                </TouchableOpacity>
+              </View>
+            </>
+          )}
         </View>
 
         <View style={styles.section}>
@@ -667,20 +671,6 @@ export default function SettingsScreen() {
               </View>
             </>
           )}
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>About</Text>
-          
-          <View style={styles.settingItem}>
-            <Text style={styles.label}>Version</Text>
-            <Text style={styles.value}>1.0.0</Text>
-          </View>
-
-          <View style={styles.settingItem}>
-            <Text style={styles.label}>Connected Providers</Text>
-            <Text style={styles.value}>{providers.length}</Text>
-          </View>
         </View>
 
         <View style={styles.buttonContainer}>

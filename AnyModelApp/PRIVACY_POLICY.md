@@ -173,8 +173,7 @@ Under the California Consumer Privacy Act (CCPA):
 
 If you have questions about this Privacy Policy or our privacy practices:
 
-**Email**: support@chatinshield.com
-**GitHub**: https://github.com/yourusername/anymodel-mobile/issues
+**GitHub Issues**: https://github.com/desoduce/anymodel/issues
 
 ## Consent
 
