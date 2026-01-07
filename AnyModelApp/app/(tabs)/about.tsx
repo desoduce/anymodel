@@ -69,7 +69,7 @@ export default function AboutScreen() {
         {/* App Header */}
         <View style={styles.header}>
           <Text style={styles.appName}>ChatinShield</Text>
-          <Text style={styles.version}>Version 1.3.0</Text>
+          <Text style={styles.version}>Version 1.2.1</Text>
           <Text style={styles.tagline}>AI Chat with Privacy Protection</Text>
         </View>
 
@@ -81,8 +81,8 @@ export default function AboutScreen() {
             PII (Personally Identifiable Information) filtering to protect your sensitive data.
           </Text>
           <Text style={styles.bodyText}>
-            Built with React Native and Expo, ChatinShield provides a seamless cross-platform experience
-            for iOS and Android users. All API keys are encrypted and stored securely on your device.
+            ChatinShield provides a seamless cross-platform experience for iOS and Android users.
+            All API keys are encrypted and stored securely on your device.
           </Text>
         </CollapsibleSection>
 
@@ -283,23 +283,23 @@ export default function AboutScreen() {
 
           <TouchableOpacity
             style={styles.linkButton}
-            onPress={() => openURL('https://github.com/yourusername/anymodel-mobile/issues')}
+            onPress={() => openURL('https://github.com/desoduce/anymodel/issues')}
           >
             <Icon name="bug-report" size={20} color="#007AFF" />
-            <Text style={styles.linkText}>Report an Issue</Text>
+            <Text style={styles.linkText}>Report an Issue on GitHub</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.linkButton}
-            onPress={() => openURL('https://github.com/yourusername/anymodel-mobile')}
+            onPress={() => openURL('https://desoduce.github.io/anymodel/')}
           >
-            <Icon name="code" size={20} color="#007AFF" />
-            <Text style={styles.linkText}>View on GitHub</Text>
+            <Icon name="home" size={20} color="#007AFF" />
+            <Text style={styles.linkText}>Visit Website</Text>
           </TouchableOpacity>
 
           <Text style={styles.bodyText}>
             {'\n'}<Text style={styles.boldText}>Developer:{'\n'}</Text>
-            AnyModel Team
+            ChatinShield Team
           </Text>
 
           <Text style={styles.bodyText}>

@@ -10,7 +10,6 @@ import {
   SafeAreaView,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useTheme } from '../contexts/ThemeContext';
 
 interface WelcomeScreenProps {
   visible: boolean;
@@ -25,7 +24,6 @@ interface Step {
 }
 
 const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ visible, onComplete }) => {
-  const { theme } = useTheme();
   const [currentStep, setCurrentStep] = useState(0);
 
   const steps: Step[] = [
@@ -121,10 +119,10 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ visible, onComplete }) =>
       presentationStyle="fullScreen"
       onRequestClose={handleSkip}
     >
-      <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
+      <SafeAreaView style={[styles.container, { backgroundColor: '#FFFFFF' }]}>
         <View style={styles.header}>
           <TouchableOpacity onPress={handleSkip} style={styles.skipButton}>
-            <Text style={[styles.skipText, { color: theme.secondary }]}>Skip</Text>
+            <Text style={[styles.skipText, { color: '#666' }]}>Skip</Text>
           </TouchableOpacity>
         </View>
 
@@ -141,7 +139,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ visible, onComplete }) =>
                 style={[
                   styles.progressDot,
                   {
-                    backgroundColor: index === currentStep ? theme.primary : theme.border,
+                    backgroundColor: index === currentStep ? '#007AFF' : '#E0E0E0',
                   },
                 ]}
               />
@@ -149,17 +147,17 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ visible, onComplete }) =>
           </View>
 
           {/* Icon */}
-          <View style={[styles.iconContainer, { backgroundColor: theme.card }]}>
-            <Ionicons name={currentStepData.icon} size={64} color={theme.primary} />
+          <View style={[styles.iconContainer, { backgroundColor: '#F5F5F5' }]}>
+            <Ionicons name={currentStepData.icon} size={64} color="#007AFF" />
           </View>
 
           {/* Title */}
-          <Text style={[styles.title, { color: theme.text }]}>
+          <Text style={[styles.title, { color: '#000' }]}>
             {currentStepData.title}
           </Text>
 
           {/* Description */}
-          <Text style={[styles.description, { color: theme.secondary }]}>
+          <Text style={[styles.description, { color: '#666' }]}>
             {currentStepData.description}
           </Text>
 
@@ -169,7 +167,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ visible, onComplete }) =>
               {providerLinks.map((provider) => (
                 <TouchableOpacity
                   key={provider.name}
-                  style={[styles.providerCard, { backgroundColor: theme.card }]}
+                  style={[styles.providerCard, { backgroundColor: '#F5F5F5' }]}
                   onPress={() => openLink(provider.url)}
                   activeOpacity={0.7}
                 >
@@ -177,25 +175,25 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ visible, onComplete }) =>
                     <Ionicons name={provider.icon} size={24} color="#FFFFFF" />
                   </View>
                   <View style={styles.providerInfo}>
-                    <Text style={[styles.providerName, { color: theme.text }]}>
+                    <Text style={[styles.providerName, { color: '#000' }]}>
                       {provider.name}
                     </Text>
-                    <Text style={[styles.providerDescription, { color: theme.secondary }]}>
+                    <Text style={[styles.providerDescription, { color: '#666' }]}>
                       {provider.description}
                     </Text>
                   </View>
-                  <Ionicons name="chevron-forward" size={20} color={theme.secondary} />
+                  <Ionicons name="chevron-forward" size={20} color="#666" />
                 </TouchableOpacity>
               ))}
 
               {/* View Full Guide Link */}
               <TouchableOpacity
-                style={[styles.guideLink, { backgroundColor: theme.border }]}
+                style={[styles.guideLink, { backgroundColor: '#E0E0E0' }]}
                 onPress={() => openLink('https://github.com/desoduce/anymodel/blob/main/AnyModelApp/API_KEYS_GUIDE.md')}
                 activeOpacity={0.7}
               >
-                <Ionicons name="book" size={20} color={theme.primary} />
-                <Text style={[styles.guideLinkText, { color: theme.primary }]}>
+                <Ionicons name="book" size={20} color="#007AFF" />
+                <Text style={[styles.guideLinkText, { color: '#007AFF' }]}>
                   View Full API Keys Setup Guide
                 </Text>
               </TouchableOpacity>
@@ -204,16 +202,16 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ visible, onComplete }) =>
         </ScrollView>
 
         {/* Navigation Buttons */}
-        <View style={[styles.footer, { borderTopColor: theme.border }]}>
+        <View style={[styles.footer, { borderTopColor: '#E0E0E0' }]}>
           <View style={styles.footerButtons}>
             {!isFirstStep && (
               <TouchableOpacity
                 onPress={handleBack}
-                style={[styles.backButton, { backgroundColor: theme.card }]}
+                style={[styles.backButton, { backgroundColor: '#F5F5F5' }]}
                 activeOpacity={0.7}
               >
-                <Ionicons name="chevron-back" size={20} color={theme.text} />
-                <Text style={[styles.backButtonText, { color: theme.text }]}>Back</Text>
+                <Ionicons name="chevron-back" size={20} color="#000" />
+                <Text style={[styles.backButtonText, { color: '#000' }]}>Back</Text>
               </TouchableOpacity>
             )}
 
@@ -221,7 +219,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ visible, onComplete }) =>
               onPress={handleNext}
               style={[
                 styles.nextButton,
-                { backgroundColor: theme.primary },
+                { backgroundColor: '#007AFF' },
                 !isFirstStep && styles.nextButtonExpanded,
               ]}
               activeOpacity={0.7}

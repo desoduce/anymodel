@@ -110,7 +110,8 @@ class ApiService {
       return await LLMDirectService.sendMessageDirect(request);
     } catch (error) {
       if (__DEV__) console.error('Error sending message:', error);
-      throw new Error('Failed to send message to LLM');
+      // Pass through the original error message instead of replacing it
+      throw error instanceof Error ? error : new Error(String(error));
     }
   }
 
