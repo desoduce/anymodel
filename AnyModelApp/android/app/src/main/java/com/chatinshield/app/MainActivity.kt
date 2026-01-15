@@ -1,4 +1,4 @@
-package com.anymodel.aichat
+package com.chatinshield.app
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build

@@ -279,7 +279,6 @@ ChatinShield is a **client application** that connects directly to AI service pr
 
 ### In-App Support
 - Settings → About → "Support"
-- GitHub Issues: [https://github.com/desoduce/anymodel/issues](https://github.com/desoduce/anymodel/issues)
 
 ### Provider Support
 - **OpenAI**: [https://help.openai.com/](https://help.openai.com/)

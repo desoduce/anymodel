@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		23F28CA31724D51D67C5B890 /* libPods-ChatinShield.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C8D2DCAACA0025C6D97983F /* libPods-ChatinShield.a */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
+		70AA6CCDC6356826088D683E /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = AF1953DEB87E0FCFFF3A27EE /* PrivacyInfo.xcprivacy */; };
+		847E35EA46BAE89466DE17EB /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3296E49F3AD7117625A5D6AA /* ExpoModulesProvider.swift */; };
+		B1E5283EFE074A1D0E381A21 /* libPods-ChatinShield.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 504505CA5EDCF8EDB2031A0C /* libPods-ChatinShield.a */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		BDBF7E127162270962C18A13 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 44FB7CD5798791095D237367 /* PrivacyInfo.xcprivacy */; };
-		CB28B64E1D7C6823EF6721B8 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6E6BA60EADB754AD24BAAF /* ExpoModulesProvider.swift */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -20,13 +20,13 @@
 		13B07F961A680F5B00A75B9A /* ChatinShield.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatinShield.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ChatinShield/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ChatinShield/Info.plist; sourceTree = "<group>"; };
-		3C8D2DCAACA0025C6D97983F /* libPods-ChatinShield.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ChatinShield.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		44FB7CD5798791095D237367 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = ChatinShield/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		9E3DBE0E38E0A744396A014E /* Pods-ChatinShield.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatinShield.debug.xcconfig"; path = "Target Support Files/Pods-ChatinShield/Pods-ChatinShield.debug.xcconfig"; sourceTree = "<group>"; };
+		3296E49F3AD7117625A5D6AA /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-ChatinShield/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		504505CA5EDCF8EDB2031A0C /* libPods-ChatinShield.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ChatinShield.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C37BCA5ECFE0DB3AEB22039 /* Pods-ChatinShield.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatinShield.release.xcconfig"; path = "Target Support Files/Pods-ChatinShield/Pods-ChatinShield.release.xcconfig"; sourceTree = "<group>"; };
+		940F102183766D1F26C3241A /* Pods-ChatinShield.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatinShield.debug.xcconfig"; path = "Target Support Files/Pods-ChatinShield/Pods-ChatinShield.debug.xcconfig"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = ChatinShield/SplashScreen.storyboard; sourceTree = "<group>"; };
+		AF1953DEB87E0FCFFF3A27EE /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = ChatinShield/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
-		CE6E6BA60EADB754AD24BAAF /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-ChatinShield/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		DF3BFA658638BD4DB0127C30 /* Pods-ChatinShield.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatinShield.release.xcconfig"; path = "Target Support Files/Pods-ChatinShield/Pods-ChatinShield.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ChatinShield/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* ChatinShield-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "ChatinShield-Bridging-Header.h"; path = "ChatinShield/ChatinShield-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -37,21 +37,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23F28CA31724D51D67C5B890 /* libPods-ChatinShield.a in Frameworks */,
+				B1E5283EFE074A1D0E381A21 /* libPods-ChatinShield.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0DB80456CAFBB727EA0A36A5 /* ExpoModulesProviders */ = {
-			isa = PBXGroup;
-			children = (
-				5F0C75F6F218E933E2FBC762 /* ChatinShield */,
-			);
-			name = ExpoModulesProviders;
-			sourceTree = "<group>";
-		};
 		13B07FAE1A68108700A75B9A /* ChatinShield */ = {
 			isa = PBXGroup;
 			children = (
@@ -61,7 +53,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				44FB7CD5798791095D237367 /* PrivacyInfo.xcprivacy */,
+				AF1953DEB87E0FCFFF3A27EE /* PrivacyInfo.xcprivacy */,
 			);
 			name = ChatinShield;
 			sourceTree = "<group>";
@@ -70,26 +62,27 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				3C8D2DCAACA0025C6D97983F /* libPods-ChatinShield.a */,
+				504505CA5EDCF8EDB2031A0C /* libPods-ChatinShield.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		5F0C75F6F218E933E2FBC762 /* ChatinShield */ = {
+		5D75B56DFB1B774E16F80465 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				CE6E6BA60EADB754AD24BAAF /* ExpoModulesProvider.swift */,
+				940F102183766D1F26C3241A /* Pods-ChatinShield.debug.xcconfig */,
+				8C37BCA5ECFE0DB3AEB22039 /* Pods-ChatinShield.release.xcconfig */,
 			);
-			name = ChatinShield;
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
-		8206A937CC399F7895D7C041 /* Pods */ = {
+		67B5B59C917EB0622161AEE8 /* ExpoModulesProviders */ = {
 			isa = PBXGroup;
 			children = (
-				9E3DBE0E38E0A744396A014E /* Pods-ChatinShield.debug.xcconfig */,
-				DF3BFA658638BD4DB0127C30 /* Pods-ChatinShield.release.xcconfig */,
+				896C03E41C3600411E78D624 /* ChatinShield */,
 			);
-			path = Pods;
+			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -106,8 +99,8 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				8206A937CC399F7895D7C041 /* Pods */,
-				0DB80456CAFBB727EA0A36A5 /* ExpoModulesProviders */,
+				5D75B56DFB1B774E16F80465 /* Pods */,
+				67B5B59C917EB0622161AEE8 /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -120,6 +113,14 @@
 				13B07F961A680F5B00A75B9A /* ChatinShield.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		896C03E41C3600411E78D624 /* ChatinShield */ = {
+			isa = PBXGroup;
+			children = (
+				3296E49F3AD7117625A5D6AA /* ExpoModulesProvider.swift */,
+			);
+			name = ChatinShield;
 			sourceTree = "<group>";
 		};
 		BB2F792B24A3F905000567C9 /* Supporting */ = {
@@ -139,13 +140,13 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ChatinShield" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				F2B33BC507EB653BBC3289B8 /* [Expo] Configure project */,
+				367162D30F044B93338F6749 /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				1C837250F1F324848A082557 /* [CP] Embed Pods Frameworks */,
+				5DCA185F2C97A8BE310F5792 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -195,7 +196,7 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				BDBF7E127162270962C18A13 /* PrivacyInfo.xcprivacy in Resources */,
+				70AA6CCDC6356826088D683E /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,7 +240,26 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		1C837250F1F324848A082557 /* [CP] Embed Pods Frameworks */ = {
+		367162D30F044B93338F6749 /* [Expo] Configure project */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[Expo] Configure project";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-ChatinShield/expo-configure-project.sh\"\n";
+		};
+		5DCA185F2C97A8BE310F5792 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -351,25 +371,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ChatinShield/Pods-ChatinShield-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F2B33BC507EB653BBC3289B8 /* [Expo] Configure project */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "[Expo] Configure project";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-ChatinShield/expo-configure-project.sh\"\n";
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -378,7 +379,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
-				CB28B64E1D7C6823EF6721B8 /* ExpoModulesProvider.swift in Sources */,
+				847E35EA46BAE89466DE17EB /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,7 +388,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9E3DBE0E38E0A744396A014E /* Pods-ChatinShield.debug.xcconfig */;
+			baseConfigurationReference = 940F102183766D1F26C3241A /* Pods-ChatinShield.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -411,8 +412,8 @@
 					"-lc++",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = com.anymodel.aichat;
-				PRODUCT_NAME = "ChatinShield";
+				PRODUCT_BUNDLE_IDENTIFIER = com.chatinshield.app;
+				PRODUCT_NAME = ChatinShield;
 				SWIFT_OBJC_BRIDGING_HEADER = "ChatinShield/ChatinShield-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -423,7 +424,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DF3BFA658638BD4DB0127C30 /* Pods-ChatinShield.release.xcconfig */;
+			baseConfigurationReference = 8C37BCA5ECFE0DB3AEB22039 /* Pods-ChatinShield.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -442,8 +443,8 @@
 					"-lc++",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
-				PRODUCT_BUNDLE_IDENTIFIER = com.anymodel.aichat;
-				PRODUCT_NAME = "ChatinShield";
+				PRODUCT_BUNDLE_IDENTIFIER = com.chatinshield.app;
+				PRODUCT_NAME = ChatinShield;
 				SWIFT_OBJC_BRIDGING_HEADER = "ChatinShield/ChatinShield-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

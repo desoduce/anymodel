@@ -5,14 +5,11 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Linking,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { useTheme } from '../../contexts/ThemeContext';
 
 export default function AboutScreen() {
-  const { theme } = useTheme();
   const [expandedSections, setExpandedSections] = useState({
     about: true,
     features: false,
@@ -27,10 +24,6 @@ export default function AboutScreen() {
       ...prev,
       [section]: !prev[section],
     }));
-  };
-
-  const openURL = (url: string) => {
-    Linking.openURL(url).catch(err => console.error('Failed to open URL:', err));
   };
 
   const CollapsibleSection = ({
@@ -69,7 +62,7 @@ export default function AboutScreen() {
         {/* App Header */}
         <View style={styles.header}>
           <Text style={styles.appName}>ChatinShield</Text>
-          <Text style={styles.version}>Version 1.2.1</Text>
+          <Text style={styles.version}>Version 1.5.0</Text>
           <Text style={styles.tagline}>AI Chat with Privacy Protection</Text>
         </View>
 
@@ -82,7 +75,6 @@ export default function AboutScreen() {
           </Text>
           <Text style={styles.bodyText}>
             ChatinShield provides a seamless cross-platform experience for iOS and Android users.
-            All API keys are encrypted and stored securely on your device.
           </Text>
         </CollapsibleSection>
 
@@ -98,15 +90,11 @@ export default function AboutScreen() {
           </View>
           <View style={styles.featureItem}>
             <Icon name="upload-file" size={20} color="#007AFF" />
-            <Text style={styles.featureText}>Document Processing (PDF, DOCX, Excel, Images)</Text>
-          </View>
-          <View style={styles.featureItem}>
-            <Icon name="camera-alt" size={20} color="#007AFF" />
-            <Text style={styles.featureText}>OCR Text Recognition with MLKit</Text>
+            <Text style={styles.featureText}>Document Processing (DOCX, Excel, Text)</Text>
           </View>
           <View style={styles.featureItem}>
             <Icon name="lock" size={20} color="#007AFF" />
-            <Text style={styles.featureText}>Encrypted Local Storage for API Keys</Text>
+            <Text style={styles.featureText}>Secure Local Storage for API Keys</Text>
           </View>
           <View style={styles.featureItem}>
             <Icon name="palette" size={20} color="#007AFF" />
@@ -132,7 +120,6 @@ export default function AboutScreen() {
             <Text style={styles.boldText}>Your Privacy is Our Priority{'\n\n'}</Text>
             ChatinShield is designed with privacy-first principles and production-grade security:
           </Text>
-          <Text style={styles.bulletPoint}>• All API keys encrypted with AES-256 and stored locally on your device</Text>
           <Text style={styles.bulletPoint}>• Your conversations and documents are sent directly to your chosen LLM provider</Text>
           <Text style={styles.bulletPoint}>• We do not store, transmit, or access your chat history or documents</Text>
           <Text style={styles.bulletPoint}>• PII filtering happens on-device before sending to LLM providers</Text>
@@ -146,8 +133,6 @@ export default function AboutScreen() {
             • All console logs disabled in production builds{'\n'}
             • No hardcoded API keys in source code{'\n'}
             • Environment-based configuration{'\n'}
-            • AES-256 encryption for API keys and sensitive data{'\n'}
-            • Encryption keys stored in iOS Keychain / Android Keystore{'\n'}
             • File size validation before processing
           </Text>
 
@@ -281,22 +266,6 @@ export default function AboutScreen() {
             Need help or have questions? We're here to assist you.
           </Text>
 
-          <TouchableOpacity
-            style={styles.linkButton}
-            onPress={() => openURL('https://github.com/desoduce/anymodel/issues')}
-          >
-            <Icon name="bug-report" size={20} color="#007AFF" />
-            <Text style={styles.linkText}>Report an Issue on GitHub</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.linkButton}
-            onPress={() => openURL('https://desoduce.github.io/anymodel/')}
-          >
-            <Icon name="home" size={20} color="#007AFF" />
-            <Text style={styles.linkText}>Visit Website</Text>
-          </TouchableOpacity>
-
           <Text style={styles.bodyText}>
             {'\n'}<Text style={styles.boldText}>Developer:{'\n'}</Text>
             ChatinShield Team
@@ -304,7 +273,7 @@ export default function AboutScreen() {
 
           <Text style={styles.bodyText}>
             {'\n'}<Text style={styles.boldText}>Support:{'\n'}</Text>
-            For questions or issues, please use GitHub Issues.
+            For support, please contact us through the App Store or Google Play Store reviews.
           </Text>
         </CollapsibleSection>
 

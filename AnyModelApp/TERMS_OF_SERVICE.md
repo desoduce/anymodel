@@ -239,8 +239,7 @@ Nothing in these Terms creates a partnership, joint venture, employment, or agen
 We are not liable for delays or failures due to circumstances beyond our reasonable control.
 
 ### 15.7 Contact for Legal Notices
-For legal notices regarding these Terms:
-- **GitHub Issues**: https://github.com/desoduce/anymodel/issues
+For legal notices regarding these Terms, please contact us through the App Store or Google Play Store.
 
 ## 16. Specific Use Cases
 
@@ -310,6 +309,6 @@ If you provide feedback, suggestions, or ideas about the App, you grant us a per
 - ⚠️ Verify important information from authoritative sources
 - ⚠️ These Terms can be updated at any time
 
-**Questions?** Contact us via GitHub Issues: https://github.com/desoduce/anymodel/issues
+**Questions?** Contact us through the App Store or Google Play Store.
 
 **By using this App, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service.**
