@@ -186,17 +186,6 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ visible, onComplete }) =>
                 </TouchableOpacity>
               ))}
 
-              {/* View Full Guide Link */}
-              <TouchableOpacity
-                style={[styles.guideLink, { backgroundColor: '#E0E0E0' }]}
-                onPress={() => openLink('https://github.com/desoduce/anymodel/blob/main/AnyModelApp/API_KEYS_GUIDE.md')}
-                activeOpacity={0.7}
-              >
-                <Ionicons name="book" size={20} color="#007AFF" />
-                <Text style={[styles.guideLinkText, { color: '#007AFF' }]}>
-                  View Full API Keys Setup Guide
-                </Text>
-              </TouchableOpacity>
             </View>
           )}
         </ScrollView>

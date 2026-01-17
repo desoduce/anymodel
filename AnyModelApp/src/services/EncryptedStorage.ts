@@ -1,7 +1,4 @@
-import * as Crypto from 'expo-crypto';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as Keychain from 'react-native-keychain';
-import CryptoJS from 'crypto-js';
 
 export interface ApiKeys {
   openai: string;
@@ -12,122 +9,38 @@ export interface ApiKeys {
 }
 
 class EncryptedStorage {
-  private static readonly ENCRYPTION_KEY = 'anymodel_encryption_key';
-  private static readonly API_KEYS_STORAGE_KEY = 'encrypted_api_keys';
-  private static readonly FILTER_PATTERNS_STORAGE_KEY = 'encrypted_filter_patterns';
-  private static readonly FILTER_KEYWORDS_STORAGE_KEY = 'encrypted_filter_keywords';
+  private static readonly API_KEYS_STORAGE_KEY = 'api_keys';
+  private static readonly FILTER_PATTERNS_STORAGE_KEY = 'filter_patterns';
+  private static readonly FILTER_KEYWORDS_STORAGE_KEY = 'filter_keywords';
 
-  // Generate or retrieve encryption key from keychain
-  private async getEncryptionKey(): Promise<string> {
-    // First check if keychain is available
-    if (!this.isKeychainAvailable()) {
-      if (__DEV__) console.log('Keychain not available, using fallback encryption method');
-      return this.getFallbackEncryptionKey();
-    }
-
+  // Base64 encode data
+  private encodeData(data: string): string {
     try {
-      // Try to get existing key from keychain
-      const credentials = await Keychain.getInternetCredentials(EncryptedStorage.ENCRYPTION_KEY);
-      if (credentials && credentials.password) {
-        return credentials.password;
-      }
+      return btoa(data);
     } catch (error) {
-      if (__DEV__) console.log('No existing encryption key found, generating new one');
-    }
-
-    // Generate new encryption key
-    const newKey = await Crypto.randomUUID();
-    
-    try {
-      // Store in keychain for future use
-      await Keychain.setInternetCredentials(
-        EncryptedStorage.ENCRYPTION_KEY,
-        'anymodel_user',
-        newKey
-      );
-      if (__DEV__) console.log('✅ Encryption key stored successfully in keychain');
-    } catch (error) {
-      // Only show warning if not in development/simulator where keychain may not be available
-      if (__DEV__) {
-        console.log('ℹ️  Keychain not available in development - using fallback storage');
-      } else {
-        if (__DEV__) console.warn('Failed to store encryption key in keychain:', error);
-      }
-      // Continue with the key even if keychain storage fails
-      // This allows the app to function in development/simulator environments
-    }
-
-    return newKey;
-  }
-
-  // Check if keychain service is available
-  private isKeychainAvailable(): boolean {
-    try {
-      return Keychain && typeof Keychain.setInternetCredentials === 'function';
-    } catch (error) {
-      return false;
+      if (__DEV__) console.error('Failed to encode data:', error);
+      throw new Error('Failed to encode data');
     }
   }
 
-  // Fallback encryption key for when keychain is not available
-  private async getFallbackEncryptionKey(): Promise<string> {
-    const fallbackKey = 'fallback_encryption_key_' + await Crypto.randomUUID();
-    
-    // Store in AsyncStorage as fallback (less secure but functional)
+  // Base64 decode data
+  private decodeData(encodedData: string): string {
     try {
-      const existingKey = await AsyncStorage.getItem('fallback_encryption_key');
-      if (existingKey) {
-        return existingKey;
-      }
-      
-      await AsyncStorage.setItem('fallback_encryption_key', fallbackKey);
-      return fallbackKey;
+      return atob(encodedData);
     } catch (error) {
-      if (__DEV__) console.warn('Fallback key storage failed, using session-only key');
-      return fallbackKey;
-    }
-  }
-
-  // Production-grade AES-256 encryption using crypto-js
-  private async encryptData(data: string): Promise<string> {
-    try {
-      const key = await this.getEncryptionKey();
-      // Use AES-256 encryption with the key
-      const encrypted = CryptoJS.AES.encrypt(data, key).toString();
-      return encrypted;
-    } catch (error) {
-      if (__DEV__) console.error('Failed to encrypt data:', error);
-      throw new Error('Failed to encrypt data');
-    }
-  }
-
-  // Production-grade AES-256 decryption using crypto-js
-  private async decryptData(encryptedData: string): Promise<string> {
-    try {
-      const key = await this.getEncryptionKey();
-      // Decrypt using AES-256
-      const decrypted = CryptoJS.AES.decrypt(encryptedData, key);
-      const decryptedString = decrypted.toString(CryptoJS.enc.Utf8);
-
-      if (!decryptedString) {
-        throw new Error('Decryption resulted in empty string');
-      }
-
-      return decryptedString;
-    } catch (error) {
-      if (__DEV__) console.error('Failed to decrypt data:', error);
-      throw new Error('Failed to decrypt stored data');
+      if (__DEV__) console.error('Failed to decode data:', error);
+      throw new Error('Failed to decode stored data');
     }
   }
 
   async saveApiKeys(apiKeys: ApiKeys): Promise<void> {
     try {
       const jsonData = JSON.stringify(apiKeys);
-      const encryptedData = await this.encryptData(jsonData);
-      await AsyncStorage.setItem(EncryptedStorage.API_KEYS_STORAGE_KEY, encryptedData);
+      const encodedData = this.encodeData(jsonData);
+      await AsyncStorage.setItem(EncryptedStorage.API_KEYS_STORAGE_KEY, encodedData);
     } catch (error) {
       if (__DEV__) console.error('Failed to save API keys:', error);
-      throw new Error('Failed to save API keys securely');
+      throw new Error('Failed to save API keys');
     }
   }
 
@@ -141,13 +54,13 @@ class EncryptedStorage {
         openrouter: ''
       };
 
-      const encryptedData = await AsyncStorage.getItem(EncryptedStorage.API_KEYS_STORAGE_KEY);
-      if (!encryptedData) {
+      const encodedData = await AsyncStorage.getItem(EncryptedStorage.API_KEYS_STORAGE_KEY);
+      if (!encodedData) {
         // Return empty defaults - users must provide their own API keys
         return defaults;
       }
 
-      const jsonData = await this.decryptData(encryptedData);
+      const jsonData = this.decodeData(encodedData);
       const savedKeys = JSON.parse(jsonData);
 
       // Merge saved keys with defaults to ensure all fields exist
@@ -172,26 +85,10 @@ class EncryptedStorage {
 
   async clearAllSecureData(): Promise<void> {
     try {
-      // Clear encrypted data
+      // Clear all stored data
       await this.clearApiKeys();
-      
-      // Clear encryption key from keychain (if available)
-      if (this.isKeychainAvailable()) {
-        try {
-          // @ts-ignore - keychain types issue
-          await Keychain.resetInternetCredentials(EncryptedStorage.ENCRYPTION_KEY);
-        } catch (error) {
-          // Ignore if key doesn't exist
-          if (__DEV__) console.log('No keychain entry to clear');
-        }
-      }
-      
-      // Clear fallback key from AsyncStorage
-      try {
-        await AsyncStorage.removeItem('fallback_encryption_key');
-      } catch (error) {
-        if (__DEV__) console.log('No fallback key to clear');
-      }
+      await this.clearFilterPatterns();
+      await this.clearFilterKeywords();
     } catch (error) {
       if (__DEV__) console.error('Failed to clear secure data:', error);
       throw new Error('Failed to clear all secure data');
@@ -229,22 +126,22 @@ class EncryptedStorage {
   async saveFilterPatterns(patterns: string[]): Promise<void> {
     try {
       const jsonData = JSON.stringify(patterns);
-      const encryptedData = await this.encryptData(jsonData);
-      await AsyncStorage.setItem(EncryptedStorage.FILTER_PATTERNS_STORAGE_KEY, encryptedData);
+      const encodedData = this.encodeData(jsonData);
+      await AsyncStorage.setItem(EncryptedStorage.FILTER_PATTERNS_STORAGE_KEY, encodedData);
     } catch (error) {
       if (__DEV__) console.error('Failed to save filter patterns:', error);
-      throw new Error('Failed to save filter patterns securely');
+      throw new Error('Failed to save filter patterns');
     }
   }
 
   async getFilterPatterns(): Promise<string[]> {
     try {
-      const encryptedData = await AsyncStorage.getItem(EncryptedStorage.FILTER_PATTERNS_STORAGE_KEY);
-      if (!encryptedData) {
+      const encodedData = await AsyncStorage.getItem(EncryptedStorage.FILTER_PATTERNS_STORAGE_KEY);
+      if (!encodedData) {
         return [];
       }
 
-      const jsonData = await this.decryptData(encryptedData);
+      const jsonData = this.decodeData(encodedData);
       return JSON.parse(jsonData);
     } catch (error) {
       if (__DEV__) console.error('Failed to retrieve filter patterns:', error);
@@ -265,26 +162,26 @@ class EncryptedStorage {
   async saveFilterKeywords(keywords: string[]): Promise<void> {
     try {
       const jsonData = JSON.stringify(keywords);
-      const encryptedData = await this.encryptData(jsonData);
-      await AsyncStorage.setItem(EncryptedStorage.FILTER_KEYWORDS_STORAGE_KEY, encryptedData);
+      const encodedData = this.encodeData(jsonData);
+      await AsyncStorage.setItem(EncryptedStorage.FILTER_KEYWORDS_STORAGE_KEY, encodedData);
     } catch (error) {
-      if (__DEV__) console.error('❌ Failed to save filter keywords:', error);
-      throw new Error('Failed to save filter keywords securely');
+      if (__DEV__) console.error('Failed to save filter keywords:', error);
+      throw new Error('Failed to save filter keywords');
     }
   }
 
   async getFilterKeywords(): Promise<string[]> {
     try {
-      const encryptedData = await AsyncStorage.getItem(EncryptedStorage.FILTER_KEYWORDS_STORAGE_KEY);
-      if (!encryptedData) {
+      const encodedData = await AsyncStorage.getItem(EncryptedStorage.FILTER_KEYWORDS_STORAGE_KEY);
+      if (!encodedData) {
         return [];
       }
 
-      const jsonData = await this.decryptData(encryptedData);
+      const jsonData = this.decodeData(encodedData);
       const keywords = JSON.parse(jsonData);
       return keywords;
     } catch (error) {
-      if (__DEV__) console.error('❌ Failed to retrieve filter keywords:', error);
+      if (__DEV__) console.error('Failed to retrieve filter keywords:', error);
       return [];
     }
   }

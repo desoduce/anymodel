@@ -63,7 +63,7 @@ This is a multi-LLM platform with two separate applications:
 - **Mobile-side**: Advanced filtering in `DocumentProcessor.ts` with `filterPII()` function
 - **Default filters**: SSNs, phone numbers, emails, addresses, credit cards automatically detected
 - **Custom filter system**: Users can add regex patterns and keywords via Settings UI
-- **Encrypted storage**: Custom filters stored securely using `EncryptedStorage.ts`
+- **Local storage**: Custom filters stored using `EncryptedStorage.ts` with base64 encoding
 - **Real-time filtering**: Filters applied during document processing without caching
 - **Preserves context**: Replaces PII with `[FILTERED]` markers rather than removing
 
@@ -87,7 +87,7 @@ DEBUG=True
 ### Mobile App Configuration
 - API keys entered through in-app settings
 - No backend dependency - connects directly to LLM providers
-- Local encryption of API keys using react-native-keychain
+- API keys stored locally with base64 encoding using AsyncStorage
 
 ## Development Notes
 
@@ -111,7 +111,18 @@ DEBUG=True
 - **Backend**: Standard FastAPI deployment (uvicorn)
 - **Bundle identifiers**: `com.anymodel.aichat` for both iOS and Android
 
-## Recent Development Updates (v1.1.0)
+## Recent Development Updates
+
+### v1.4.0 - Storage Simplification (January 2026)
+- **Removed Encryption**: Replaced AES-256 encryption with base64 encoding for API key storage
+- **Simplified Codebase**: Removed crypto-js and react-native-keychain dependencies
+- **Reduced Complexity**: Eliminated ~100 lines of encryption key management code
+- **More Reliable**: No keychain availability issues or session-only key data loss
+- **Smaller Bundle**: Removed unused cryptographic dependencies
+- **Updated Documentation**: Removed encryption claims from About page
+- **Files**: `EncryptedStorage.ts`, `app/(tabs)/about.tsx`, `package.json`
+
+### v1.1.0 - Settings & Filter System
 
 ### Settings Management Overhaul
 - **Unified Save System**: Single "Save Settings" button now handles all settings (API keys, preferences, custom filters)

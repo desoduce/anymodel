@@ -171,9 +171,7 @@ Under the California Consumer Privacy Act (CCPA):
 
 ## Contact Us
 
-If you have questions about this Privacy Policy or our privacy practices:
-
-**GitHub Issues**: https://github.com/desoduce/anymodel/issues
+If you have questions about this Privacy Policy or our privacy practices, please contact us through the App Store or Google Play Store.
 
 ## Consent
 

@@ -1,4 +1,4 @@
-package com.anymodel.aichat
+package com.chatinshield.app
 
 import android.app.Application
 import android.content.res.Configuration
