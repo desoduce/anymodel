@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "ChatinShield",
-    "slug": "chatinshield",
+    "slug": "anymodel-ai-chat",
     "version": "1.5.0",
     "orientation": "portrait",
     "icon": "./assets/images/guardiip-logo.png",
